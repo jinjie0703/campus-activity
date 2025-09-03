@@ -22,19 +22,19 @@
             <tr v-if="registrants.length === 0">
               <td colspan="6">暂无报名记录</td>
             </tr>
-            <tr v-for="reg in registrants" :key="reg.userId">
+            <!-- 注意：key 最好使用唯一的 registrationId -->
+            <tr v-for="reg in registrants" :key="reg.registrationId">
               <td>{{ reg.username }}</td>
               <td>{{ reg.fullName }}</td>
               <td>{{ reg.college }}</td>
               <td>{{ new Date(reg.registrationTime).toLocaleString() }}</td>
               <td>
-                <!-- 根据状态显示不同样式 -->
                 <span :class="['status', `status-${reg.status}`]">{{
                   formatStatus(reg.status)
                 }}</span>
               </td>
               <td class="actions">
-                <!-- 操作按钮 -->
+                <!-- 1. “通过”按钮保持不变 -->
                 <button
                   @click="updateStatus(reg.registrationId, 'approved')"
                   class="btn btn-approve"
@@ -42,12 +42,9 @@
                 >
                   通过
                 </button>
-                <button
-                  @click="updateStatus(reg.registrationId, 'rejected')"
-                  class="btn btn-reject"
-                  :disabled="reg.status === 'rejected'"
-                >
-                  拒绝
+                <!-- 2. “拒绝”按钮已改为“删除”按钮 -->
+                <button @click="deleteRegistration(reg.registrationId)" class="btn btn-delete">
+                  删除
                 </button>
               </td>
             </tr>
@@ -72,7 +69,7 @@ const props = defineProps({
 const activity = ref(null)
 const registrants = ref([])
 
-// 获取数据的函数
+// 获取数据的函数 (保持不变)
 const fetchData = async () => {
   try {
     const [activityResponse, registrantsResponse] = await Promise.all([
@@ -89,15 +86,14 @@ const fetchData = async () => {
 
 onMounted(fetchData)
 
+// "通过" 报名申请的函数
 const updateStatus = async (registrationId, newStatus) => {
   try {
-    // --- 修改这里 ---
+    // 这个函数现在只处理 "approved" 状态
     await request.put(`/api/admin/registrations/${registrationId}/status`, {
       status: newStatus,
     })
-    // --- 修改结束 ---
     alert('状态更新成功！')
-    // 刷新列表以显示最新状态
     fetchData()
   } catch (error) {
     console.error('更新状态失败:', error)
@@ -105,20 +101,37 @@ const updateStatus = async (registrationId, newStatus) => {
   }
 }
 
-// 新增：格式化状态文本的辅助函数
+// 新增：“删除”报名记录的函数
+const deleteRegistration = async (registrationId) => {
+  // 增加一个确认弹窗，防止误操作
+  if (!confirm('您确定要永久删除这条报名记录吗？此操作不可撤销。')) {
+    return
+  }
+
+  try {
+    // 调用管理员专用的删除 API
+    await request.delete(`/api/admin/registrations/${registrationId}`)
+    alert('报名记录已成功删除！')
+    fetchData() // 刷新列表
+  } catch (error) {
+    console.error('删除报名记录失败:', error)
+    alert('删除失败: ' + (error.response?.data?.error || '服务器错误'))
+  }
+}
+
+// 格式化状态文本的辅助函数
 const formatStatus = (status) => {
   const statusMap = {
     approved: '已通过',
+    // "rejected" 状态虽然不会在界面上操作产生，但可能历史数据里有，所以保留
     rejected: '已拒绝',
     pending: '待审核',
   }
-  // 如果数据库里存的是其他默认值（比如'approved'），也在这里处理
   return statusMap[status] || status
 }
 </script>
 
 <style scoped>
-/* ...之前的样式保持不变... */
 .container {
   max-width: 1200px;
   margin: 20px auto;
@@ -166,7 +179,7 @@ h1 {
   color: #34495e;
 }
 
-/* 新增：状态和操作按钮的样式 */
+/* 状态和操作按钮的样式 */
 .status {
   padding: 4px 8px;
   border-radius: 4px;
@@ -175,39 +188,50 @@ h1 {
   font-size: 0.85em;
 }
 .status-approved {
-  background-color: #28a745;
-} /* 绿色 */
+  background-color: #28a745; /* 绿色 */
+}
 .status-rejected {
-  background-color: #dc3545;
-} /* 红色 */
+  background-color: #dc3545; /* 红色 */
+}
 .status-pending {
   background-color: #ffc107;
-  color: #333;
-} /* 黄色 */
+  color: #333; /* 黄色背景配深色文字更清晰 */
+}
 
 .actions .btn {
-  padding: 5px 10px;
-  margin-right: 5px;
+  padding: 6px 12px; /* 稍微增大按钮，方便点击 */
+  margin-right: 8px; /* 增加按钮间距 */
   border: none;
   border-radius: 4px;
   color: white;
   cursor: pointer;
-  transition: opacity 0.3s;
+  transition:
+    background-color 0.2s,
+    opacity 0.3s; /* 过渡效果更平滑 */
+  font-weight: 500;
 }
+
+.actions .btn:last-child {
+  margin-right: 0; /* 最后一个按钮不需要右边距 */
+}
+
 .actions .btn:disabled {
-  opacity: 0.5;
+  opacity: 0.6;
   cursor: not-allowed;
 }
 .btn-approve {
-  background-color: #007bff;
+  background-color: #007bff; /* 蓝色 */
 }
 .btn-approve:hover:not(:disabled) {
   background-color: #0056b3;
 }
-.btn-reject {
-  background-color: #6c757d;
+
+/* --- 这里是核心修改 --- */
+/* 将原来的 .btn-reject 改为 .btn-delete，并使用醒目的红色 */
+.btn-delete {
+  background-color: #dc3545; /* 醒目的红色 */
 }
-.btn-reject:hover:not(:disabled) {
-  background-color: #545b62;
+.btn-delete:hover:not(:disabled) {
+  background-color: #c82333; /* 鼠标悬浮时颜色加深 */
 }
 </style>
