@@ -13,6 +13,7 @@
         <option value="学术讲座">学术讲座</option>
         <option value="文体竞赛">文体竞赛</option>
         <option value="社团招新">社团招新</option>
+        <option value="其他">其他</option>
       </select>
     </div>
     <div v-for="activity in activities" :key="activity.id" class="activity-card">

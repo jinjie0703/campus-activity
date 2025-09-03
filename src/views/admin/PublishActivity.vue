@@ -89,15 +89,31 @@ const handleSubmit = async () => {
   }
 
   try {
-    // 注意：在实际应用中，你需要发送认证 Token
-    // const token = localStorage.getItem('authToken'); // 假设你的 token 存储在这里
-    // const headers = { Authorization: `Bearer ${token}` };
+    const token = localStorage.getItem('token') // 从 localStorage 获取 token
+    if (!token) {
+      errorMsg.value = '您尚未登录，请先登录后再发布活动。'
+      return
+    }
+    const headers = { Authorization: `Bearer ${token}` }
 
-    const response = await request.post(
-      '/api/activities',
-      activity.value,
-      // { headers } // 附加 headers
-    )
+    // 日期格式化
+    const formatDateTimeForServer = (dtString) => {
+      if (!dtString) {
+        return null // Return null if the string is empty
+      }
+      // Convert the local datetime-local string to a Date object,
+      // then format it as an ISO 8601 string (e.g., "2025-09-02T14:24:55.000Z").
+      // This is the standard format that Go's JSON parser understands by default.
+      return new Date(dtString).toISOString()
+    }
+
+    const payload = {
+      ...activity.value,
+      startTime: formatDateTimeForServer(activity.value.startTime),
+      endTime: formatDateTimeForServer(activity.value.endTime),
+    }
+
+    const response = await request.post('/api/activities', payload, { headers })
 
     successMsg.value = '活动发布成功！正在跳转到活动广场...'
 

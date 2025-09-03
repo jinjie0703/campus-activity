@@ -68,11 +68,13 @@ const register = async () => {
     return
   }
   try {
-    const response = await request.post(`/api/activities/${props.id}/register`, {
-      userId: user.id,
-    })
+    // 请求体现在是空的，因为后端会从Token中获取用户ID
+    // 如果你的API需要其他数据，可以放在这里，但绝不是 userId
+    const response = await request.post(`/api/activities/${props.id}/register`)
+
     alert(response.data.message)
   } catch (error) {
+    // 错误处理保持不变
     alert('报名失败: ' + (error.response?.data?.error || '未知错误'))
   }
 }

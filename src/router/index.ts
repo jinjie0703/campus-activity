@@ -1,7 +1,7 @@
 // src/router/index.js
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '@/views/auth/LoginView.vue'
-import ActivityView from '@/views/admin/ActivityView.vue'
+import ActivityView from '@/views/common/ActivityView.vue'
 import AdminView from '@/views/admin/AdminView.vue'
 import ActivityDetailView from '@/views/common/ActivityDetailView.vue'
 import MyActivitiesView from '@/views/user/MyActivitiesView.vue'

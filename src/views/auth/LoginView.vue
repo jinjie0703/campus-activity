@@ -27,7 +27,12 @@ const handleLogin = async () => {
       username: username.value,
       password: password.value,
     })
-    const user = response.data.user
+    const { user, token } = response.data // 从响应中解构 user 和 token
+    if (token) {
+      // 将 token 存入 localStorage，后续请求需要用到
+      localStorage.setItem('token', token)
+    }
+
     // 将用户信息存入localStorage，简单实现会话保持
     localStorage.setItem('user', JSON.stringify(user))
 
