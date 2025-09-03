@@ -69,7 +69,7 @@ const props = defineProps({
 const activity = ref(null)
 const registrants = ref([])
 
-// 获取数据的函数 (保持不变)
+// 获取数据的函数
 const fetchData = async () => {
   try {
     const [activityResponse, registrantsResponse] = await Promise.all([
@@ -86,10 +86,9 @@ const fetchData = async () => {
 
 onMounted(fetchData)
 
-// "通过" 报名申请的函数
+// 审核通过函数
 const updateStatus = async (registrationId, newStatus) => {
   try {
-    // 这个函数现在只处理 "approved" 状态
     await request.put(`/api/admin/registrations/${registrationId}/status`, {
       status: newStatus,
     })
@@ -101,7 +100,7 @@ const updateStatus = async (registrationId, newStatus) => {
   }
 }
 
-// 新增：“删除”报名记录的函数
+// 删除报名记录的函数
 const deleteRegistration = async (registrationId) => {
   // 增加一个确认弹窗，防止误操作
   if (!confirm('您确定要永久删除这条报名记录吗？此操作不可撤销。')) {
@@ -123,8 +122,6 @@ const deleteRegistration = async (registrationId) => {
 const formatStatus = (status) => {
   const statusMap = {
     approved: '已通过',
-    // "rejected" 状态虽然不会在界面上操作产生，但可能历史数据里有，所以保留
-    rejected: '已拒绝',
     pending: '待审核',
   }
   return statusMap[status] || status
@@ -179,7 +176,6 @@ h1 {
   color: #34495e;
 }
 
-/* 状态和操作按钮的样式 */
 .status {
   padding: 4px 8px;
   border-radius: 4px;
@@ -188,31 +184,31 @@ h1 {
   font-size: 0.85em;
 }
 .status-approved {
-  background-color: #28a745; /* 绿色 */
+  background-color: #28a745;
 }
 .status-rejected {
-  background-color: #dc3545; /* 红色 */
+  background-color: #dc3545;
 }
 .status-pending {
   background-color: #ffc107;
-  color: #333; /* 黄色背景配深色文字更清晰 */
+  color: #333;
 }
 
 .actions .btn {
-  padding: 6px 12px; /* 稍微增大按钮，方便点击 */
-  margin-right: 8px; /* 增加按钮间距 */
+  padding: 6px 12px;
+  margin-right: 8px;
   border: none;
   border-radius: 4px;
   color: white;
   cursor: pointer;
   transition:
     background-color 0.2s,
-    opacity 0.3s; /* 过渡效果更平滑 */
+    opacity 0.3s;
   font-weight: 500;
 }
 
 .actions .btn:last-child {
-  margin-right: 0; /* 最后一个按钮不需要右边距 */
+  margin-right: 0;
 }
 
 .actions .btn:disabled {
@@ -220,18 +216,16 @@ h1 {
   cursor: not-allowed;
 }
 .btn-approve {
-  background-color: #007bff; /* 蓝色 */
+  background-color: #007bff;
 }
 .btn-approve:hover:not(:disabled) {
   background-color: #0056b3;
 }
 
-/* --- 这里是核心修改 --- */
-/* 将原来的 .btn-reject 改为 .btn-delete，并使用醒目的红色 */
 .btn-delete {
-  background-color: #dc3545; /* 醒目的红色 */
+  background-color: #dc3545;
 }
 .btn-delete:hover:not(:disabled) {
-  background-color: #c82333; /* 鼠标悬浮时颜色加深 */
+  background-color: #c82333;
 }
 </style>

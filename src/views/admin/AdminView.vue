@@ -104,7 +104,6 @@ const fetchRegistrations = async () => {
 }
 
 // 辅助函数，用于计算特定活动的报名人数
-// 假设你的报名信息对象中有 activityId 字段
 const getRegistrationCount = (activityId) => {
   return registrations.value.filter((reg) => reg.activityId === activityId).length
 }
@@ -236,32 +235,34 @@ h1 {
     background-color 0.3s,
     color 0.3s;
 }
+
 .toggle-btn:hover {
   background-color: #f0f0f0;
   color: #000;
 }
 
-/* 数据看板 */
 .stats-container {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
 }
+
 .chart-widget {
   flex: 1 1 400px;
   padding: 15px;
   border: 1px solid #e0e0e0;
   border-radius: 6px;
 }
+
 .chart {
   width: 100%;
   height: 400px;
 }
 
-/* 活动管理列表 & 报名信息列表 */
 .activity-list {
   padding-top: 10px;
 }
+
 .activity-card {
   display: flex;
   justify-content: space-between;
@@ -272,12 +273,15 @@ h1 {
   border-radius: 6px;
   transition: background-color 0.3s;
 }
+
 .activity-card:hover {
   background-color: #f9f9f9;
 }
+
 .activity-info {
   color: #333;
 }
+
 .delete-btn {
   padding: 6px 12px;
   color: white;
@@ -287,11 +291,11 @@ h1 {
   cursor: pointer;
   transition: background-color 0.3s;
 }
+
 .delete-btn:hover {
   background-color: #c0392b;
 }
 
-/* 报名信息活动链接卡片样式 */
 .activity-link-card {
   display: flex;
   justify-content: space-between;
@@ -307,11 +311,13 @@ h1 {
     border-color 0.3s,
     transform 0.2s;
 }
+
 .activity-link-card:hover {
   background-color: #f7f9fa;
   border-color: #42b983;
   transform: translateY(-2px);
 }
+
 .registrant-count {
   font-size: 0.95rem;
   color: #555;
@@ -319,6 +325,7 @@ h1 {
   padding: 5px 10px;
   border-radius: 12px;
 }
+
 .registrant-count strong {
   color: #2c3e50;
 }

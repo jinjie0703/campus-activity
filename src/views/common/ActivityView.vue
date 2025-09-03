@@ -69,33 +69,30 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* 整体容器 */
 .container {
   max-width: 900px;
   margin: 0 auto;
   padding: 20px;
 }
 
-/* 页面头部，包含标题和按钮 */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 30px;
-  flex-wrap: wrap; /* 确保在小屏幕上也能良好显示 */
+  flex-wrap: wrap;
 }
 
 h1 {
   text-align: center;
-  color: #2c3e50; /* 深色文本 */
-  margin: 0; /* 移除默认的 margin */
+  color: #2c3e50;
+  margin: 0;
 }
 
-/* 发布活动按钮 */
 .publish-btn {
   padding: 10px 20px;
   font-size: 16px;
-  background-color: #42b983; /* 主题绿 */
+  background-color: #42b983;
   color: white;
   border: none;
   border-radius: 6px;
@@ -107,87 +104,67 @@ h1 {
 
 .publish-btn:hover {
   background-color: #36a46f;
-  transform: scale(1.05); /* 轻微放大效果 */
+  transform: scale(1.05);
 }
 
-/* 筛选区域 */
 .filters {
   display: flex;
-  gap: 15px; /* 控件之间的间距 */
+  gap: 15px;
   margin-bottom: 30px;
-  flex-wrap: wrap; /* 在小屏幕上换行 */
+  flex-wrap: wrap;
 }
 
 .filters input,
 .filters select {
   padding: 10px 15px;
   font-size: 16px;
-  border: 1px solid #e0e0e0; /* 边框颜色 */
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
   outline: none;
   transition:
     border-color 0.3s,
     box-shadow 0.3s;
-  flex-grow: 1; /* 让输入框和选择框尽可能填充空间 */
+  flex-grow: 1;
 }
 
 .filters input:focus,
 .filters select:focus {
-  border-color: #42b983; /* 主题绿 */
+  border-color: #42b983;
   box-shadow: 0 0 5px rgba(66, 185, 131, 0.5);
 }
 
-/* 活动卡片 */
 .activity-card {
-  background-color: #ffffff; /* 卡片背景色 */
-  border: 1px solid #e0e0e0; /* 边框颜色 */
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
   padding: 20px;
   margin-bottom: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   transition:
     transform 0.3s ease,
-    box-shadow 0.3s ease; /* 添加平滑过渡效果 */
+    box-shadow 0.3s ease;
 }
 
-/* 鼠标悬停在卡片上的效果 */
 .activity-card:hover {
-  transform: translateY(-5px); /* 轻微上浮 */
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1); /* 增加阴影 */
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
 }
 
 .activity-card a {
   text-decoration: none;
-  color: inherit; /* 继承父元素颜色 */
+  color: inherit;
 }
 
-/* 卡片内标题 */
 .activity-card h3 {
   margin: 0 0 10px 0;
-  color: #2c3e50; /* 深色文本 */
+  color: #2c3e50;
   font-size: 1.25rem;
 }
 
-/* 卡片内段落文本 */
 .activity-card p {
   margin: 5px 0 0 0;
-  color: #5a7388; /* 浅色文本 */
+  color: #5a7388;
   font-size: 0.95rem;
   line-height: 1.5;
-}
-
-/* 响应式设计 */
-@media (max-width: 600px) {
-  .header {
-    flex-direction: column;
-    gap: 20px;
-  }
-  .filters {
-    flex-direction: column; /* 在小屏幕上垂直排列筛选控件 */
-  }
-
-  h1 {
-    font-size: 1.8rem;
-  }
 }
 </style>

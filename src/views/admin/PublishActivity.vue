@@ -99,11 +99,9 @@ const handleSubmit = async () => {
     // 日期格式化
     const formatDateTimeForServer = (dtString) => {
       if (!dtString) {
-        return null // Return null if the string is empty
+        return null
       }
-      // Convert the local datetime-local string to a Date object,
-      // then format it as an ISO 8601 string (e.g., "2025-09-02T14:24:55.000Z").
-      // This is the standard format that Go's JSON parser understands by default.
+      // 使用js内置库进行date format
       return new Date(dtString).toISOString()
     }
 

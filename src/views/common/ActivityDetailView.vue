@@ -47,7 +47,6 @@ const activity = ref(null)
 const user = JSON.parse(localStorage.getItem('user'))
 
 onMounted(async () => {
-  // 从 props 获取 ID 是更推荐的做法
   const activityId = props.id || route.params.id
   if (!activityId) {
     alert('未找到活动ID')
@@ -68,13 +67,10 @@ const register = async () => {
     return
   }
   try {
-    // 请求体现在是空的，因为后端会从Token中获取用户ID
-    // 如果你的API需要其他数据，可以放在这里，但绝不是 userId
     const response = await request.post(`/api/activities/${props.id}/register`)
 
     alert(response.data.message)
   } catch (error) {
-    // 错误处理保持不变
     alert('报名失败: ' + (error.response?.data?.error || '未知错误'))
   }
 }
@@ -164,13 +160,5 @@ const register = async () => {
   padding: 50px;
   color: #5a7388;
   font-size: 1.2rem;
-}
-
-/* 响应式设计 */
-@media (min-width: 600px) {
-  .info-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px 20px;
-  }
 }
 </style>

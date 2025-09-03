@@ -34,8 +34,6 @@ const user = JSON.parse(localStorage.getItem('user'))
 const fetchMyActivities = async () => {
   if (!user) return
   try {
-    // 假设API返回的数据中每个对象都包含:
-    // registrationId, activityId, title, organizer, startTime, location 等字段
     const response = await request.get(`/api/users/${user.id}/registrations`)
     registrations.value = response.data
   } catch (error) {
@@ -162,20 +160,5 @@ h1 {
 
 .go-to-activities-link:hover {
   background-color: #36a46e;
-}
-
-@media (max-width: 600px) {
-  .activity-card {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .card-actions {
-    margin-left: 0;
-    margin-top: 15px;
-    width: 100%;
-  }
-  .cancel-btn {
-    width: 100%;
-  }
 }
 </style>
