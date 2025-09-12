@@ -6,10 +6,7 @@ const request = axios.create({
   timeout: 5000, // 请求超时时间
 })
 
-// 可以在这里添加请求拦截器和响应拦截器
-// request.interceptors.request.use(...)
-// request.interceptors.response.use(...)
-// --- 核心在这里：请求拦截器 ---
+// 请求拦截器
 request.interceptors.request.use(
   (config) => {
     // 在发送请求之前做些什么

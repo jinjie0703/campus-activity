@@ -22,7 +22,6 @@
             <tr v-if="registrants.length === 0">
               <td colspan="6">暂无报名记录</td>
             </tr>
-            <!-- 注意：key 最好使用唯一的 registrationId -->
             <tr v-for="reg in registrants" :key="reg.registrationId">
               <td>{{ reg.username }}</td>
               <td>{{ reg.fullName }}</td>
@@ -34,7 +33,6 @@
                 }}</span>
               </td>
               <td class="actions">
-                <!-- 1. “通过”按钮保持不变 -->
                 <button
                   @click="updateStatus(reg.registrationId, 'approved')"
                   class="btn btn-approve"
@@ -42,7 +40,6 @@
                 >
                   通过
                 </button>
-                <!-- 2. “拒绝”按钮已改为“删除”按钮 -->
                 <button @click="deleteRegistration(reg.registrationId)" class="btn btn-delete">
                   删除
                 </button>

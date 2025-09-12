@@ -29,10 +29,10 @@ const router = createRouter({
       props: true,
     },
     {
-      path: '/publish-activity', // 这是我们新页面的路径
+      path: '/publish-activity',
       name: 'PublishActivity',
       component: PublishActivity,
-      // 【推荐】添加路由元信息，用于导航守卫，确保只有管理员能访问
+      // 添加路由元信息，用于导航守卫，确保只有管理员能访问
       meta: { requiresAuth: true, requiresAdmin: true },
     },
   ],
